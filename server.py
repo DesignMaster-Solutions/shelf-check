@@ -6,6 +6,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import shelfcheck as sc
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
+PUBLIC = os.path.join(ROOT, "public")
 KEY = os.environ.get("YOUCAM_API_KEY", "")
 DEMO = os.path.join(ROOT, "fixtures", "skin-result.json")
 MAX = 8 * 1024 * 1024
@@ -21,10 +22,11 @@ class H(BaseHTTPRequestHandler):
         self.wfile.write(b)
 
     def do_GET(self):
-        name = {"/": "index.html", "/demo-face.jpg": "../fixtures/demo-face.jpg"}.get(self.path.split("?")[0])
-        if not name:
+        name = self.path.split("?")[0].lstrip("/") or "index.html"
+        path = os.path.normpath(os.path.join(PUBLIC, name))
+        if not path.startswith(PUBLIC + os.sep) or not os.path.isfile(path):
             return self._send(404, {"error": "not found"})
-        with open(os.path.join(ROOT, "static", name), "rb") as f:
+        with open(path, "rb") as f:
             self._send(200, f.read(), "text/html; charset=utf-8" if name.endswith(".html") else "image/jpeg")
 
     def do_POST(self):

@@ -10,6 +10,8 @@ Every pick says *why* ("For: Dehydration, Redness"), so the shopper trusts it an
 
 Built for the YouCam API Skin AI & eCommerce VTO Hackathon by Design Master Solutions LLC.
 
+**Live:** https://shelf-check.designmaster.workers.dev (real API on uploads; **Use sample selfie** replays a captured response).
+
 ## How it works
 
 1. The browser sends the selfie to `POST /api/check`.
@@ -30,10 +32,19 @@ python3 server.py           # http://127.0.0.1:8090, no dependencies (Python 3.9
 Without a key, or with **Use sample selfie**, the app replays a real API response captured from the sample photo
 (`fixtures/skin-result.json`), so judges can try it without spending units.
 
+## Deploy (Cloudflare Workers)
+
+`worker.js` is the same flow in JavaScript; `public/` holds the page, the sample selfie and the sample masks.
+
+```bash
+npx wrangler deploy
+npx wrangler secret put YOUCAM_API_KEY
+```
+
 ## Test
 
 ```bash
-python3 -m unittest discover -s tests
+npm test   # Python unit tests + Worker parity with the Python ranking
 ```
 
 ## Credits

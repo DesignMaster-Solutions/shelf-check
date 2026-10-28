@@ -1,0 +1,1 @@
+{"name":"shelf-check","private":true,"type":"module","scripts":{"test":"node --test tests/ && python3 -m unittest discover -s tests"}}
