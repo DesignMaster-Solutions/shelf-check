@@ -1,0 +1,12 @@
+[
+ {"sku":"SC-01","name":"Salicylic Acid 2% Clarifying Gel","price":14.0,"treats":["acne","pore","oiliness"]},
+ {"sku":"SC-02","name":"Niacinamide 10% + Zinc Serum","price":12.0,"treats":["pore","oiliness","redness","age_spot"]},
+ {"sku":"SC-03","name":"Hyaluronic Acid Water Cream","price":22.0,"treats":["moisture","wrinkle"]},
+ {"sku":"SC-04","name":"Centella Calming Toner","price":16.0,"treats":["redness","moisture"]},
+ {"sku":"SC-05","name":"Retinal 0.05% Night Serum","price":34.0,"treats":["wrinkle","age_spot","pore"]},
+ {"sku":"SC-06","name":"Vitamin C 15% Brightening Drops","price":28.0,"treats":["age_spot","dark_circle_v2"]},
+ {"sku":"SC-07","name":"Caffeine + Peptide Eye Cream","price":19.0,"treats":["dark_circle_v2","wrinkle"]},
+ {"sku":"SC-08","name":"Ceramide Barrier Moisturizer","price":18.0,"treats":["moisture","redness"]},
+ {"sku":"SC-09","name":"Mineral SPF 50 Fluid","price":24.0,"treats":["age_spot","redness","wrinkle"]},
+ {"sku":"SC-10","name":"Clay Oil-Control Mask","price":15.0,"treats":["oiliness","pore","acne"]}
+]
