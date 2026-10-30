@@ -28,6 +28,14 @@
   .bar i { display:block; height:8px; border-radius:4px; background:var(--line); overflow:hidden; }
   .bar i b { display:block; height:100%; background:var(--accent); width:0; transition:width .7s cubic-bezier(.2,.8,.2,1); }
   .bar.low i b { background:var(--warn); }
+  button.bar { width:100%; background:none; color:inherit; border-radius:8px; padding:4px 6px; font-weight:400; text-align:left; cursor:pointer; }
+  button.bar:hover, button.bar.on { background:#fff; box-shadow:0 0 0 1px var(--line); }
+  button.bar.on span:first-child { font-weight:600; }
+  .sum { display:flex; gap:22px; margin:0 0 14px; }
+  .sum b { display:block; font-size:28px; line-height:1.1; letter-spacing:-.02em; }
+  .sum small { color:var(--muted); font-size:13px; }
+  .tip { font-size:13px; color:var(--muted); margin:-4px 0 8px; }
+  #preview { transition:opacity .25s; }
   h2 { font-size:18px; margin:0 0 10px; }
   .pick { background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin:10px 0;
           display:flex; justify-content:space-between; gap:12px; opacity:0; transform:translateY(6px);
@@ -54,6 +62,7 @@
         <div class="hint"><strong>Drop a front-facing selfie</strong><br>or tap to choose · JPG/PNG up to 8 MB<br><small>Face should fill most of the width, no hat.</small></div>
       </label>
       <div class="meta" id="meta"></div>
+      <div class="meta" id="maskinfo" hidden><span id="masklabel"></span> · <button class="link" id="photo" type="button">Show my photo</button></div>
       <div class="row">
         <button id="go" disabled>Check my skin</button>
         <button class="link" id="sample" type="button">Use sample selfie</button>
@@ -68,10 +77,10 @@
 <script>
 (() => {
   const $ = id => document.getElementById(id);
-  let blob = null, demo = false;
+  let blob = null, demo = false, photo = '';
   const set = (b, name, isDemo) => {
     blob = b; demo = isDemo;
-    $('preview').src = URL.createObjectURL(b); $('drop').classList.add('has');
+    $('preview').src = photo = URL.createObjectURL(b); $('drop').classList.add('has'); $('maskinfo').hidden = true;
     $('meta').textContent = `${name} · ${(b.size / 1024).toFixed(0)} KB · ${b.type}`;
     $('go').disabled = false;
   };
@@ -80,6 +89,13 @@
     e.preventDefault(); $('drop').classList.toggle('over', ev === 'dragover');
     if (ev === 'drop' && e.dataTransfer.files[0]) set(e.dataTransfer.files[0], e.dataTransfer.files[0].name, false);
   }));
+  // The API's own overlay shows WHERE each concern was found; swap it into the photo frame.
+  const show = (k, v) => {
+    document.querySelectorAll('button.bar').forEach(b => b.classList.toggle('on', b.dataset.k === k));
+    if (!v || !v.mask) return;
+    $('preview').src = v.mask; $('maskinfo').hidden = false; $('masklabel').textContent = `Showing: ${v.label} (score ${Math.round(v.score)})`;
+  };
+  $('photo').onclick = e => { e.preventDefault(); $('preview').src = photo; $('maskinfo').hidden = true; document.querySelectorAll('button.bar').forEach(b => b.classList.remove('on')); };
   $('sample').onclick = async () => set(await (await fetch('/demo-face.jpg')).blob(), 'sample-selfie.jpg (CC0)', true);
   $('go').onclick = async () => {
     $('go').disabled = true; $('go').textContent = 'Analyzing…';
@@ -94,11 +110,15 @@
   };
   function render(d) {
     const s = Object.entries(d.scores).sort((a, b) => a[1].score - b[1].score);
-    $('out').innerHTML = '<h2>Your skin map</h2>' + s.map(([k, v]) =>
-      `<div class="bar ${v.score < 70 ? 'low' : ''}"><span>${v.label}</span><i><b data-w="${v.score}"></b></i><span>${Math.round(v.score)}</span></div>`).join('') +
+    const sum = (d.overall != null ? `<div><b>${Math.round(d.overall)}</b><small>Overall skin score</small></div>` : '') +
+      (d.skin_age != null ? `<div><b>${Math.round(d.skin_age)}</b><small>Estimated skin age</small></div>` : '');
+    $('out').innerHTML = (sum ? `<div class="sum">${sum}</div>` : '') + '<h2>Your skin map</h2><p class="tip">Tap a concern to see where it was found on your photo.</p>' + s.map(([k, v]) =>
+      `<button type="button" class="bar ${v.score < 70 ? 'low' : ''}" data-k="${k}"><span>${v.label}</span><i><b data-w="${v.score}"></b></i><span>${Math.round(v.score)}</span></button>`).join('') +
       '<h2 style="margin-top:22px">Picked from this shelf</h2>' +
       (d.picks.length ? d.picks.map(p => `<div class="pick"><div><strong>${p.name}</strong><small>For: ${p.because.join(', ')}</small></div><span class="price">$${p.price.toFixed(2)}</span></div>`).join('')
         : '<p class="empty">Your skin scored high on everything. Nothing on this shelf is needed.</p>');
+    document.querySelectorAll('button.bar').forEach(b => b.onclick = () => show(b.dataset.k, d.scores[b.dataset.k]));
+    if (s.length) show(s[0][0], s[0][1]); // open on the shopper's biggest need
     requestAnimationFrame(() => {
       document.querySelectorAll('.bar b').forEach(b => b.style.width = b.dataset.w + '%');
       document.querySelectorAll('.pick').forEach((p, i) => setTimeout(() => p.classList.add('in'), 120 * i));

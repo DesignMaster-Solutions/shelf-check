@@ -18,6 +18,12 @@ export function parse(results) {
   return out;
 }
 
+// Overall skin score and estimated skin age come back in the same task output; no extra units.
+export function summary(results) {
+  const pick = (t) => (results.output || []).find((o) => o.type === t)?.score ?? null;
+  return { overall: pick("all"), skin_age: pick("skin_age") };
+}
+
 export function recommend(scores, items, top = 3) {
   const need = Object.fromEntries(Object.entries(scores).map(([c, v]) => [c, Math.max(0, 100 - v.score)]));
   return items
@@ -46,7 +52,7 @@ async function analyze(image, type, key) {
   const task = (await call("POST", `${API}/task/skin-analysis`, key, { src_file_id: f.file_id, dst_actions: CONCERNS, miniserver_args: { enable_mask_overlay: true }, format: "json" })).data.task_id;
   for (let i = 0; i < 40; i++) {
     const d = (await call("GET", `${API}/task/skin-analysis/${task}`, key)).data;
-    if (d.task_status === "success") return parse(d.results);
+    if (d.task_status === "success") return d.results;
     if (d.task_status === "error") throw new Error(d.error_message || d.error);
     await new Promise((r) => setTimeout(r, 3000));
   }
@@ -59,17 +65,18 @@ export default {
     if (url.pathname !== "/api/check") return env.ASSETS.fetch(req);
     if (req.method !== "POST") return Response.json({ error: "not found" }, { status: 404 });
     const type = req.headers.get("Content-Type") || "";
-    let scores;
+    let results;
     if (url.searchParams.get("demo") === "1" || !env.YOUCAM_API_KEY) {
-      scores = parse(demo.data.results); // real API response captured from public/demo-face.jpg (no units spent)
+      results = demo.data.results; // real API response captured from public/demo-face.jpg (no units spent)
     } else {
       const image = await req.arrayBuffer();
       if (!image.byteLength || image.byteLength > MAX || !["image/jpeg", "image/png"].includes(type))
         return Response.json({ error: "send one JPG or PNG selfie up to 8 MB" }, { status: 400 });
-      try { scores = await analyze(image, type, env.YOUCAM_API_KEY); }
+      try { results = await analyze(image, type, env.YOUCAM_API_KEY); }
       catch (e) { return Response.json({ error: String(e.message || e) }, { status: 502 }); }
     }
+    const scores = parse(results);
     const out = Object.fromEntries(Object.entries(scores).map(([c, v]) => [c, { ...v, label: LABELS[c] }]));
-    return Response.json({ scores: out, picks: recommend(scores, catalog) });
+    return Response.json({ scores: out, ...summary(results), picks: recommend(scores, catalog) });
   },
 };

@@ -23,7 +23,7 @@ def _call(method, url, key, body=None, headers=None):
 
 
 def analyze(image: bytes, content_type: str, key: str, timeout=120) -> dict:
-    """Upload a selfie, run SD skin analysis on 8 concerns (12 units) and return {concern: raw_score}."""
+    """Upload a selfie, run SD skin analysis on 8 concerns (12 units) and return the raw task results."""
     f = _call("POST", f"{API}/file", key, {"files": [
         {"content_type": content_type, "file_name": f"selfie.{content_type.split('/')[-1]}", "file_size": len(image)}]})
     f = f["data"]["files"][0]
@@ -37,7 +37,7 @@ def analyze(image: bytes, content_type: str, key: str, timeout=120) -> dict:
     while time.time() < end:
         d = _call("GET", f"{API}/task/skin-analysis/{task}", key)["data"]
         if d["task_status"] == "success":
-            return parse(d["results"])
+            return d["results"]
         if d["task_status"] == "error":
             raise RuntimeError(d.get("error_message") or d.get("error"))
         time.sleep(3)
@@ -52,6 +52,12 @@ def parse(results) -> dict:
             out[o["type"]] = {"score": float(o.get("raw_score", o.get("ui_score", 100))),
                               "ui": o.get("ui_score"), "mask": (o.get("mask_urls") or [None])[0]}
     return out
+
+
+def summary(results) -> dict:
+    """Overall skin score and estimated skin age from the same task output (no extra units)."""
+    by = {o.get("type"): o.get("score") for o in results.get("output", [])}
+    return {"overall": by.get("all"), "skin_age": by.get("skin_age")}
 
 
 def recommend(scores: dict, catalog: list, top=3) -> list:

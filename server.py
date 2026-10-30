@@ -37,16 +37,17 @@ class H(BaseHTTPRequestHandler):
         if "demo=1" in self.path or not KEY:
             # Replays a real API response captured from fixtures/demo-face.jpg (no units spent).
             with open(DEMO) as f:
-                scores = sc.parse(json.load(f)["data"]["results"])
+                results = json.load(f)["data"]["results"]
         elif not 0 < n <= MAX or ctype not in ("image/jpeg", "image/png"):
             return self._send(400, {"error": "send one JPG or PNG selfie up to 8 MB"})
         else:
             try:
-                scores = sc.analyze(self.rfile.read(n), ctype, KEY)
+                results = sc.analyze(self.rfile.read(n), ctype, KEY)
             except Exception as e:  # surface the engine message (e.g. no face found) to the shopper
                 return self._send(502, {"error": str(e)})
+        scores = sc.parse(results)
         self._send(200, {"scores": {c: {**v, "label": sc.LABELS[c]} for c, v in scores.items()},
-                         "picks": sc.recommend(scores, sc.load_catalog())})
+                         **sc.summary(results), "picks": sc.recommend(scores, sc.load_catalog())})
 
 
 if __name__ == "__main__":

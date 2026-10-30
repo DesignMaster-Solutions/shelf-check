@@ -17,7 +17,9 @@ Built for the YouCam API Skin AI & eCommerce VTO Hackathon by Design Master Solu
 1. The browser sends the selfie to `POST /api/check`.
 2. The server calls the YouCam **File API**, uploads to the pre-signed URL, starts a **skin-analysis** task
    (SD, 8 concerns, 12 units) and polls until `success`.
-3. `need = 100 - raw_score` per concern. Each catalog item scores the sum of the needs it treats; ties go to the cheaper
+3. The page shows the overall skin score and estimated skin age from the same task, and every concern bar opens the
+   API's own mask overlay on the selfie, so the shopper sees *where* each concern was found (it opens on the biggest one).
+4. `need = 100 - raw_score` per concern. Each catalog item scores the sum of the needs it treats; ties go to the cheaper
    item. Top 3 are returned with the concerns that justified them.
 
 The store's catalog is a plain `catalog.json` (`sku`, `name`, `price`, `treats`), so any shop can plug in its own shelf.

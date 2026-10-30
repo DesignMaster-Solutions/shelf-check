@@ -20,3 +20,12 @@ test("worker picks match the Python reference", () => {
 test("demo masks are served locally, not from expiring signed URLs", () => {
   for (const v of Object.values(parse(demo.data.results))) assert.match(v.mask, /^\/masks\/\w+\.jpg$/);
 });
+
+test("summary exposes the overall score and skin age the API already returns", async () => {
+  const { summary } = await import("../worker.js");
+  assert.deepEqual(summary(demo.data.results), { overall: 79.5, skin_age: 68 });
+  const py = JSON.parse(execFileSync("python3", ["-c",
+    "import json,shelfcheck as s;d=json.load(open('fixtures/skin-result.json'));print(json.dumps(s.summary(d['data']['results'])))"],
+    { cwd: new URL("..", import.meta.url).pathname }).toString());
+  assert.deepEqual(py, { overall: 79.5, skin_age: 68 });
+});
