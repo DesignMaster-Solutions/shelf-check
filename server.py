@@ -9,6 +9,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 PUBLIC = os.path.join(ROOT, "public")
 KEY = os.environ.get("YOUCAM_API_KEY", "")
 DEMO = os.path.join(ROOT, "fixtures", "skin-result.json")
+DEMO_FITZ = os.path.join(ROOT, "fixtures", "fitzpatrick-result.json")
 MAX = 8 * 1024 * 1024
 
 
@@ -38,16 +39,19 @@ class H(BaseHTTPRequestHandler):
             # Replays a real API response captured from fixtures/demo-face.jpg (no units spent).
             with open(DEMO) as f:
                 results = json.load(f)["data"]["results"]
+            with open(DEMO_FITZ) as f:
+                fitz = json.load(f)["data"]["results"]
         elif not 0 < n <= MAX or ctype not in ("image/jpeg", "image/png"):
             return self._send(400, {"error": "send one JPG or PNG selfie up to 8 MB"})
         else:
             try:
-                results = sc.analyze(self.rfile.read(n), ctype, KEY)
+                results, fitz = sc.analyze(self.rfile.read(n), ctype, KEY)
             except Exception as e:  # surface the engine message (e.g. no face found) to the shopper
                 return self._send(502, {"error": str(e)})
-        scores = sc.parse(results)
+        scores, skin_type = sc.parse(results), sc.parse_skin_type(fitz)
         self._send(200, {"scores": {c: {**v, "label": sc.LABELS[c]} for c, v in scores.items()},
-                         **sc.summary(results), "picks": sc.recommend(scores, sc.load_catalog())})
+                         **sc.summary(results), "skin_type": skin_type, "skin_type_note": sc.skin_type_note(skin_type),
+                         "picks": sc.recommend(scores, sc.load_catalog(), skin_type=skin_type)})
 
 
 if __name__ == "__main__":

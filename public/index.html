@@ -35,6 +35,7 @@
   .sum b { display:block; font-size:28px; line-height:1.1; letter-spacing:-.02em; }
   .sum small { color:var(--muted); font-size:13px; }
   .tip { font-size:13px; color:var(--muted); margin:-4px 0 8px; }
+  .tip.note { color:var(--ink); background:#fff; border-left:3px solid var(--accent); padding:8px 12px; border-radius:0 8px 8px 0; margin:0 0 16px; }
   #preview { transition:opacity .25s; }
   h2 { font-size:18px; margin:0 0 10px; }
   .pick { background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin:10px 0;
@@ -52,7 +53,7 @@
 <main>
   <header>
     <h1>Shelf Check</h1>
-    <p>One selfie. The YouCam Skin AI measures eight skin concerns, and Shelf Check answers the question shoppers actually ask at the shelf: <em>which of these products is for me?</em> Only items this store stocks, ranked by how much of your measured need they cover.</p>
+    <p>One selfie. The YouCam Skin AI measures eight skin concerns and your Fitzpatrick skin type, and Shelf Check answers the question shoppers actually ask at the shelf: <em>which of these products is for me?</em> Only items this store stocks, ranked by how much of your measured need they cover.</p>
   </header>
   <div class="grid">
     <section>
@@ -72,7 +73,7 @@
       <p class="empty">Your skin map and the products picked for you will show here.</p>
     </section>
   </div>
-  <footer>Demo store catalog (10 sample SKUs). Skin analysis by YouCam API (Perfect Corp). Built by Design Master Solutions LLC.</footer>
+  <footer>Demo store catalog (10 sample SKUs). Skin analysis and Fitzpatrick skin type by YouCam API (Perfect Corp). Built by Design Master Solutions LLC.</footer>
 </main>
 <script>
 (() => {
@@ -99,7 +100,7 @@
   $('sample').onclick = async () => set(await (await fetch('/demo-face.jpg')).blob(), 'sample-selfie.jpg (CC0)', true);
   $('go').onclick = async () => {
     $('go').disabled = true; $('go').textContent = 'Analyzing…';
-    $('out').innerHTML = '<p class="empty">Measuring 8 skin concerns, this takes about 10 seconds…</p>';
+    $('out').innerHTML = '<p class="empty">Measuring 8 skin concerns and your skin type, this takes about 10 seconds…</p>';
     try {
       const r = await fetch('/api/check' + (demo ? '?demo=1' : ''), { method: 'POST', headers: { 'Content-Type': blob.type }, body: blob });
       const d = await r.json();
@@ -111,8 +112,10 @@
   function render(d) {
     const s = Object.entries(d.scores).sort((a, b) => a[1].score - b[1].score);
     const sum = (d.overall != null ? `<div><b>${Math.round(d.overall)}</b><small>Overall skin score</small></div>` : '') +
-      (d.skin_age != null ? `<div><b>${Math.round(d.skin_age)}</b><small>Estimated skin age</small></div>` : '');
-    $('out').innerHTML = (sum ? `<div class="sum">${sum}</div>` : '') + '<h2>Your skin map</h2><p class="tip">Tap a concern to see where it was found on your photo.</p>' + s.map(([k, v]) =>
+      (d.skin_age != null ? `<div><b>${Math.round(d.skin_age)}</b><small>Estimated skin age</small></div>` : '') +
+      (d.skin_type ? `<div><b>${d.skin_type}</b><small>Fitzpatrick skin type</small></div>` : '');
+    const note = d.skin_type_note ? `<p class="tip note">${d.skin_type_note}</p>` : '';
+    $('out').innerHTML = (sum ? `<div class="sum">${sum}</div>` : '') + note + '<h2>Your skin map</h2><p class="tip">Tap a concern to see where it was found on your photo.</p>' + s.map(([k, v]) =>
       `<button type="button" class="bar ${v.score < 70 ? 'low' : ''}" data-k="${k}"><span>${v.label}</span><i><b data-w="${v.score}"></b></i><span>${Math.round(v.score)}</span></button>`).join('') +
       '<h2 style="margin-top:22px">Picked from this shelf</h2>' +
       (d.picks.length ? d.picks.map(p => `<div class="pick"><div><strong>${p.name}</strong><small>For: ${p.because.join(', ')}</small></div><span class="price">$${p.price.toFixed(2)}</span></div>`).join('')

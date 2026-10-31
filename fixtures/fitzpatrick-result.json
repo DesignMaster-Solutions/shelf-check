@@ -1,0 +1,11 @@
+{
+ "status": 200,
+ "data": {
+  "error": null,
+  "results": {
+   "timed": 2081,
+   "fitzpatrick_scale": "II"
+  },
+  "task_status": "success"
+ }
+}
