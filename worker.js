@@ -53,6 +53,71 @@ export function recommend(scores, items, top = 3, skinType = null) {
     .slice(0, top);
 }
 
+// Any Shopify store's public catalog can be the shelf. Claims come only from the store's own words
+// (title, product type, tags such as "Skin_Concern::Acne"); every pick shows the words that matched.
+const CLAIMS = [
+  [/salicylic|\bbha\b|benzoyl|azelaic|tea tree|\bacne\b|blemish|breakout|pimple/i, ["acne"]],
+  [/\bpores?\b|oil[ -]?control|sebum|mattif\w*|\bclay\b/i, ["pore", "oiliness"]],
+  [/niacinamide/i, ["pore", "oiliness", "redness", "age_spot"]],
+  [/centella|\bcica\b|redness|calming|soothing/i, ["redness"]],
+  [/hyaluronic|ceramides?|squalane|hydrat\w*|moisturi[sz]\w*|dryness|\bbarrier\b/i, ["moisture"]],
+  [/retino\w*|retinal|bakuchiol|peptides?|wrinkles?|fine lines|anti-?ag(e)?ing|firming/i, ["wrinkle"]],
+  [/\beye (cream|serum|gel|balm|patch|mask)|under-?eye|dark circle/i, ["dark_circle_v2"]],
+  [/vitamin c|ascorbic|tranexamic|arbutin|kojic|dark spots?|brighten\w*|\w*pigment\w*|discolou?r\w*|even(ing)? (skin )?tone|\bspf\b|sunscreen/i, ["age_spot"]],
+];
+
+export function claims(p) {
+  const tags = Array.isArray(p.tags) ? p.tags : String(p.tags || "").split(",");
+  const text = [p.title, p.product_type, ...tags].join(" | ");
+  const treats = new Set(), matched = [];
+  for (const [re, cs] of CLAIMS) {
+    const m = text.match(re);
+    if (!m) continue;
+    cs.forEach((c) => treats.add(c));
+    if (!matched.includes(m[0].toLowerCase())) matched.push(m[0].toLowerCase());
+  }
+  return { treats: [...treats], matched };
+}
+
+// The selfie measures the face, so lip/body/hair products and non-products never make the shelf.
+const NOT_FACE = /\b(lips?|body|hair|scalp|hands?|foot|feet|nails?|deodorant|shampoo|conditioner|candle|brush|tools?|accessor(y|ies)|merch|tote)\b|gift ?card|sample|^test$/i;
+
+export function shelfFromShopify(products, host) {
+  const best = new Map(); // same title listed twice (a duo, a size) -> keep the cheaper listing
+  for (const p of products) {
+    const v = (p.variants || []).find((x) => x.available !== false);
+    const price = Number(v?.price);
+    if (!(price > 0) || NOT_FACE.test(p.title || "") || NOT_FACE.test(p.product_type || "")) continue;
+    const { treats, matched } = claims(p);
+    const key = String(p.title).trim().toLowerCase();
+    if (treats.length && !(best.get(key)?.price <= price))
+      best.set(key, { sku: p.handle, name: p.title, price, url: `https://${host}/products/${encodeURIComponent(p.handle)}`, treats, matched });
+  }
+  return [...best.values()];
+}
+
+export const coverage = (items) => Object.fromEntries(CONCERNS.map((c) => [c, items.filter((i) => i.treats.includes(c)).length]));
+
+// The Worker fetches whatever this returns, so only public DNS names pass: no IPs, no single-label or internal hosts.
+export function storeHost(input) {
+  const s = String(input || "").trim().toLowerCase();
+  let h;
+  try { h = s && new URL(s.includes("://") ? s : `https://${s}`).hostname; } catch { return null; }
+  if (!h || !/^(?=.{4,253}$)([a-z0-9](-*[a-z0-9])*\.)+[a-z]{2,63}$/.test(h) || /\.(local|internal|localhost)$/.test(h)) return null;
+  return h;
+}
+
+async function shelf(host) {
+  const get = (path) => fetch(`https://${host}${path}`, { headers: { Accept: "application/json", "User-Agent": "ShelfCheck/1.0 (+https://shelf-check.designmaster.workers.dev)" },
+    cf: { cacheTtl: 900, cacheEverything: true }, signal: AbortSignal.timeout(8000) });
+  // shortcut: first 250 products (one page of /products.json); page through ?page=N when a store needs its whole range.
+  const [pr, mr] = await Promise.all([get("/products.json?limit=250"), get("/meta.json").catch(() => null)]);
+  const data = pr.ok ? await pr.json().catch(() => null) : null;
+  if (!Array.isArray(data?.products)) throw new Error(`${host} did not share a Shopify catalog (HTTP ${pr.status}). Shopify stores publish /products.json unless the owner turns it off.`);
+  const meta = mr?.ok ? await mr.json().catch(() => ({})) : {};
+  return { store: { host, name: meta.name || host, currency: meta.currency || "USD" }, total: data.products.length, items: shelfFromShopify(data.products, host) };
+}
+
 async function call(method, url, key, body) {
   const r = await fetch(url, { method, headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" }, body: body && JSON.stringify(body) });
   const j = await r.json().catch(() => ({}));
@@ -92,7 +157,16 @@ async function analyze(image, type, key) {
 export default {
   async fetch(req, env) {
     const url = new URL(req.url);
-    if (url.pathname !== "/api/check") return env.ASSETS.fetch(req);
+    if (!["/api/check", "/api/shelf"].includes(url.pathname)) return env.ASSETS.fetch(req);
+    // The store's shelf loads before any YouCam unit is spent, so a bad store address costs nothing.
+    let s = { store: null, total: catalog.length, items: catalog };
+    if (url.searchParams.has("store") || url.pathname === "/api/shelf") {
+      const host = storeHost(url.searchParams.get("store"));
+      if (!host) return Response.json({ error: "type a store's web address, like sokoglam.com" }, { status: 400 });
+      try { s = await shelf(host); } catch (e) { return Response.json({ error: String(e.message || e) }, { status: 502 }); }
+    }
+    if (url.pathname === "/api/shelf") return Response.json({ store: s.store, total: s.total, items: s.items.length,
+      coverage: Object.fromEntries(Object.entries(coverage(s.items)).map(([c, n]) => [LABELS[c], n])) });
     if (req.method !== "POST") return Response.json({ error: "not found" }, { status: 404 });
     const type = req.headers.get("Content-Type") || "";
     let results, fitz;
@@ -105,9 +179,11 @@ export default {
       try { [results, fitz] = await analyze(image, type, env.YOUCAM_API_KEY); }
       catch (e) { return Response.json({ error: String(e.message || e) }, { status: 502 }); }
     }
-    const scores = parse(results), skinType = parseSkinType(fitz);
+    const scores = parse(results), skinType = parseSkinType(fitz), cov = coverage(s.items);
     const out = Object.fromEntries(Object.entries(scores).map(([c, v]) => [c, { ...v, label: LABELS[c] }]));
     return Response.json({ scores: out, ...summary(results), skin_type: skinType, skin_type_note: skinType && FITZ[skinType][1],
-      picks: recommend(scores, catalog, 3, skinType) });
+      store: s.store, picks: recommend(scores, s.items, 3, skinType),
+      // Low-scoring concerns this shelf has nothing for: said out loud instead of picking something unrelated.
+      unserved: Object.entries(scores).filter(([c, v]) => v.score < 70 && !cov[c]).map(([c]) => LABELS[c]) });
   },
 };

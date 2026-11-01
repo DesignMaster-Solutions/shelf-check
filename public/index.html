@@ -47,6 +47,18 @@
   .err { color:var(--warn); }
   .empty { color:var(--muted); }
   footer { margin-top:40px; font-size:13px; color:var(--muted); }
+  .store { margin-top:22px; padding:14px 16px; background:#fff; border:1px solid var(--line); border-radius:12px; }
+  .store label { font-weight:600; font-size:14px; }
+  .store .row { margin-top:8px; }
+  .store input { flex:1; min-width:0; font:inherit; font-size:15px; padding:9px 12px; border:1px solid var(--line); border-radius:999px; background:var(--bg); }
+  .store input:focus { outline:2px solid var(--accent); outline-offset:1px; }
+  .cover { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .cover span { font-size:12px; padding:3px 9px; border-radius:999px; background:#eef4f2; color:var(--accent); }
+  .cover span.gap { background:#fbeee7; color:var(--warn); }
+  .pick a { color:inherit; }
+  .says { font-style:italic; }
+  .tip.warn { border-left-color:var(--warn); }
+  @media (max-width:400px){ .store input { font-size:14px; padding:8px 10px; } }
 </style>
 </head>
 <body>
@@ -68,17 +80,43 @@
         <button id="go" disabled>Check my skin</button>
         <button class="link" id="sample" type="button">Use sample selfie</button>
       </div>
+      <form class="store" id="storeform" autocomplete="off">
+        <label for="store">Whose shelf?</label>
+        <div class="row"><input id="store" name="store" inputmode="url" spellcheck="false" placeholder="any Shopify store, e.g. sokoglam.com"><button class="link" id="load">Load shelf</button></div>
+        <div class="meta" id="storemeta">Now: demo shelf, 10 sample SKUs. Try <button class="link" type="button" data-store="sokoglam.com">sokoglam.com</button> or <button class="link" type="button" data-store="versedskin.com">versedskin.com</button></div>
+        <div class="cover" id="cover"></div>
+      </form>
     </section>
     <section id="out">
       <p class="empty">Your skin map and the products picked for you will show here.</p>
     </section>
   </div>
-  <footer>Demo store catalog (10 sample SKUs). Skin analysis and Fitzpatrick skin type by YouCam API (Perfect Corp). Built by Design Master Solutions LLC.</footer>
+  <footer>Shelf: the demo catalog (10 sample SKUs) or any Shopify store's public catalog, read from the store's own titles and tags. Skin analysis and Fitzpatrick skin type by YouCam API (Perfect Corp). Built by Design Master Solutions LLC.</footer>
 </main>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
-  let blob = null, demo = false, photo = '';
+  let blob = null, demo = false, photo = '', store = null; // store = {host,name,currency} once a Shopify shelf is loaded
+  const esc = t => String(t).replace(/[&<>"']/g, c => `&#${c.charCodeAt(0)};`); // store titles are third-party text
+  const money = (v, cur) => { try { return new Intl.NumberFormat('en-US', { style: 'currency', currency: cur || 'USD' }).format(v); } catch { return v.toFixed(2); } };
+  async function loadShelf(input) {
+    $('load').disabled = true; $('storemeta').textContent = `Reading ${input}…`; $('cover').innerHTML = '';
+    try {
+      const r = await fetch('/api/shelf?store=' + encodeURIComponent(input)), d = await r.json();
+      if (!r.ok) throw new Error(d.error);
+      store = d.store; $('store').value = store.host;
+      history.replaceState(null, '', '?store=' + encodeURIComponent(store.host));
+      $('storemeta').innerHTML = `Now: <strong>${esc(store.name)}</strong> · ${d.items} of ${d.total} products claim one of the 8 concerns in their own titles and tags · <button class="link" type="button" id="reset">back to demo shelf</button>`;
+      $('cover').innerHTML = Object.entries(d.coverage).map(([k, n]) => `<span class="${n ? '' : 'gap'}">${k} ${n}</span>`).join('');
+      $('reset').onclick = () => { store = null; $('store').value = ''; $('cover').innerHTML = ''; history.replaceState(null, '', location.pathname);
+        $('storemeta').textContent = 'Now: demo shelf, 10 sample SKUs.'; };
+    } catch (e) { store = null; $('storemeta').innerHTML = `<span class="err">${esc(e.message)}</span>`; }
+    $('load').disabled = false;
+  }
+  $('storeform').onsubmit = e => { e.preventDefault(); $('store').value.trim() && loadShelf($('store').value.trim()); };
+  document.querySelectorAll('[data-store]').forEach(b => b.onclick = () => { $('store').value = b.dataset.store; loadShelf(b.dataset.store); });
+  const pre = new URLSearchParams(location.search).get('store');
+  if (pre) { $('store').value = pre; loadShelf(pre); }
   const set = (b, name, isDemo) => {
     blob = b; demo = isDemo;
     $('preview').src = photo = URL.createObjectURL(b); $('drop').classList.add('has'); $('maskinfo').hidden = true;
@@ -102,7 +140,9 @@
     $('go').disabled = true; $('go').textContent = 'Analyzing…';
     $('out').innerHTML = '<p class="empty">Measuring 8 skin concerns and your skin type, this takes about 10 seconds…</p>';
     try {
-      const r = await fetch('/api/check' + (demo ? '?demo=1' : ''), { method: 'POST', headers: { 'Content-Type': blob.type }, body: blob });
+      const q = new URLSearchParams(demo ? { demo: 1 } : {});
+      if (store) q.set('store', store.host);
+      const r = await fetch('/api/check?' + q, { method: 'POST', headers: { 'Content-Type': blob.type }, body: blob });
       const d = await r.json();
       if (!r.ok) throw new Error(d.error);
       render(d);
@@ -117,8 +157,11 @@
     const note = d.skin_type_note ? `<p class="tip note">${d.skin_type_note}</p>` : '';
     $('out').innerHTML = (sum ? `<div class="sum">${sum}</div>` : '') + note + '<h2>Your skin map</h2><p class="tip">Tap a concern to see where it was found on your photo.</p>' + s.map(([k, v]) =>
       `<button type="button" class="bar ${v.score < 70 ? 'low' : ''}" data-k="${k}"><span>${v.label}</span><i><b data-w="${v.score}"></b></i><span>${Math.round(v.score)}</span></button>`).join('') +
-      '<h2 style="margin-top:22px">Picked from this shelf</h2>' +
-      (d.picks.length ? d.picks.map(p => `<div class="pick"><div><strong>${p.name}</strong><small>For: ${p.because.join(', ')}</small></div><span class="price">$${p.price.toFixed(2)}</span></div>`).join('')
+      `<h2 style="margin-top:22px">Picked from ${d.store ? esc(d.store.name) + "'s shelf" : 'this shelf'}</h2>` +
+      (d.unserved && d.unserved.length ? `<p class="tip note warn">Nothing on this shelf claims to treat ${d.unserved.join(' or ')}. Ask the staff before buying something else for it.</p>` : '') +
+      (d.picks.length ? d.picks.map(p => `<div class="pick"><div><strong>${p.url ? `<a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.name)}</a>` : esc(p.name)}</strong>` +
+        `<small>For: ${p.because.slice(0, 3).join(', ')}</small>${p.matched ? `<small class="says">Store says: ${p.matched.map(esc).join(', ')}</small>` : ''}</div>` +
+        `<span class="price">${money(p.price, d.store && d.store.currency)}</span></div>`).join('')
         : '<p class="empty">Your skin scored high on everything. Nothing on this shelf is needed.</p>');
     document.querySelectorAll('button.bar').forEach(b => b.onclick = () => show(b.dataset.k, d.scores[b.dataset.k]));
     if (s.length) show(s[0][0], s[0][1]); // open on the shopper's biggest need

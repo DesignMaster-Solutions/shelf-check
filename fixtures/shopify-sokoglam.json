@@ -1,0 +1,1005 @@
+{
+ "_source": "https://sokoglam.com/products.json?limit=250 captured 2026-11-01, first 30 products, fields trimmed",
+ "products": [
+  {
+   "title": "Vita Duo Night Cream",
+   "handle": "neogen-vita-duo-night-cream",
+   "product_type": "Facial Moisturizer",
+   "tags": [
+    "A/B test",
+    "ascorbic acid",
+    "badge-cleanbeauty",
+    "Cruelty-free",
+    "Facial Moisturizer",
+    "Free_Of::Alcohol_Products",
+    "Free_Of::Animal_Products",
+    "Free_Of::Artificial_Colors",
+    "Free_Of::Artificial_Fragrances",
+    "Free_Of::Mineral_Oil",
+    "Free_of::Parabens",
+    "Free_Of::Silicone",
+    "Free_Of::Sulphates",
+    "Ingredient_Type::Vitamins",
+    "neogen",
+    "night cream",
+    "normal skin",
+    "Product_Type::Moisturizer",
+    "Skin_Type::Dry",
+    "Skin_Type::Normal",
+    "soko glam",
+    "sokoglam",
+    "tocopherol",
+    "vitamin a",
+    "vitamin b"
+   ],
+   "variants": [
+    {
+     "price": "28.00",
+     "available": true
+    },
+    {
+     "price": "12.00",
+     "available": true
+    }
+   ]
+  },
+  {
+   "title": "Build Your Own Bundle",
+   "handle": "build-your-own-bundle",
+   "product_type": "",
+   "tags": [],
+   "variants": [
+    {
+     "price": "0.00",
+     "available": true
+    }
+   ]
+  },
+  {
+   "title": "The Giving Essence Mist",
+   "handle": "then-i-met-you-the-giving-essence-mist",
+   "product_type": "Facial Mist",
+   "tags": [
+    "Essence",
+    "Facial Mist",
+    "mist",
+    "new",
+    "Product_Type::Essence",
+    "Product_Type::Mists",
+    "skin essence",
+    "Skin_Concern::Anti-Aging/Wrinkles",
+    "Skin_Concern::Dryness/Hydration",
+    "Skin_Concern::Dryness_/_Hydration",
+    "Skin_Type::Combination",
+    "Skin_Type::Dry",
+    "Skin_Type::Normal",
+    "the giving essence",
+    "Then I Met You"
+   ],
+   "variants": [
+    {
+     "price": "39.00",
+     "available": true
+    }
+   ]
+  },
+  {
+   "title": "Gentle Black Fresh Cleansing Oil",
+   "handle": "klairs-gentle-black-fresh-cleansing-oil",
+   "product_type": "Oil Cleanser",
+   "tags": [
+    "badge-cleanbeauty",
+    "badge-vegan",
+    "Cruelty-free",
+    "dry",
+    "fragrance free",
+    "Free_Of::Alcohol_Products",
+    "Free_Of::Animal_Products",
+    "Free_Of::Artificial_Colors",
+    "Free_Of::Artificial_Fragrances",
+    "Free_Of::Essential_Oil",
+    "Free_Of::Mineral_Oil",
+    "Free_of::Parabens",
+    "Free_Of::Silicone",
+    "Free_Of::Sulphates",
+    "holiday shop 2021",
+    "holiday shop 2022",
+    "J_affordable",
+    "J_dry-skin",
+    "J_oil-cleanser",
+    "J_oily",
+    "J_oily-skin",
+    "J_repair",
+    "Jojoba",
+    "jojoba oil",
+    "K3PL",
+    "klairs",
+    "normal",
+    "normal skin",
+    "oil cleanser",
+    "oil cleansers",
+    "oil control",
+    "oily",
+    "oily combination",
+    "oily normal",
+    "oily skin",
+    "pore",
+    "pore control",
+    "Product_Type::Oil_Cleanser",
+    "sensitive",
+    "sensitive skin",
+    "skin care",
+    "Skin_Concern::Oil Control/Pores",
+    "Skin_Concern::Sensitive",
+    "Skin_Type::Dry",
+    "Skin_Type::Normal",
+    "Skin_Type::Oily",
+    "skincare",
+    "sokoglam"
+   ],
+   "variants": [
+    {
+     "price": "24.00",
+     "available": false
+    }
+   ]
+  },
+  {
+   "title": "Dear Klairs EGF Blue AC Calming Serum",
+   "handle": "dear-klairs-egf-blue-ac-calming-serum",
+   "product_type": "Serum/Ampoule",
+   "tags": [
+    "acne",
+    "acne & blemishes",
+    "acne care",
+    "acne prone",
+    "acne senstive",
+    "all skin types",
+    "calming",
+    "egf",
+    "Ingredient_Type::EGF",
+    "klairs",
+    "new",
+    "Product_type::Serum/Ampoule",
+    "sensitive",
+    "sensitive skin",
+    "Skin_Concern::Acne",
+    "Skin_Concern::Redness",
+    "Skin_Concern::Sensitive",
+    "Skin_Type::Combination",
+    "Skin_Type::Dry",
+    "Skin_Type::Normal",
+    "Skin_Type::Oily"
+   ],
+   "variants": [
+    {
+     "price": "19.00",
+     "available": true
+    }
+   ]
+  },
+  {
+   "title": "Exclusive Skin Flooding Kit",
+   "handle": "soko-glam-exclusive-skin-flooding-set",
+   "product_type": "Skincare Set",
+   "tags": [
+    "Ashely Mixon",
+    "badge-exclusive",
+    "Best toner",
+    "black rice toner",
+    "calming toner",
+    "cleansing toner",
+    "Essence",
+    "exclusive",
+    "hydrating toner",
+    "Hydration toner",
+    "milky toner",
+    "new",
+    "ph balancing toner",
+    "pH rebalancing toner",
+    "Product_Type::Essence",
+    "Product_Type::Sets",
+    "Product_Type::Toner",
+    "rice toner",
+    "set",
+    "sets",
+    "skin essence",
+    "skin flooding",
+    "Skin_Concern::Anti-Aging/Wrinkles",
+    "Skin_Concern::Dryness/Hydration",
+    "Skin_Concern::Dryness_/_Hydration",
+    "Skin_Concern::Pigmentation",
+    "Skin_Type::Combination",
+    "Skin_Type::Dry",
+    "Skin_Type::Normal",
+    "Skin_Type::Oily",
+    "skincare set",
+    "special set",
+    "toner",
+    "toner face"
+   ],
+   "variants": [
+    {
+     "price": "90.00",
+     "available": false
+    }
+   ]
+  },
+  {
+   "title": "2026 Best of K-Beauty\u00ae Set",
+   "handle": "2026-best-of-k-beauty-set",
+   "product_type": "Skincare Set",
+   "tags": [
+    "new",
+    "Product_Type::Sets",
+    "sets"
+   ],
+   "variants": [
+    {
+     "price": "50.00",
+     "available": true
+    }
+   ]
+  },
+  {
+   "title": "Koolsol Ultra Light Invisible Mineral Sunscreen Broad Spectrum SPF 50",
+   "handle": "knours-koolsol-ultra-light-invisible-mineral-sunscreen-broad-spectrum-spf-50",
+   "product_type": "Sunscreen",
+   "tags": [
+    "family sunscreen",
+    "Knours",
+    "korean sunscreen",
+    "mineral sunscreen",
+    "new",
+    "physical sunscreen",
+    "Skin_Concern::Anti-Aging/Wrinkles",
+    "Skin_Concern::Pigmentation",
+    "Skin_Type::Combination",
+    "Skin_Type::Normal",
+    "Skin_Type::Oily",
+    "sun care",
+    "sun damage",
+    "sun screen",
+    "sunblock",
+    "Sunscreen"
+   ],
+   "variants": [
+    {
+     "price": "25.00",
+     "available": false
+    }
+   ]
+  },
+  {
+   "title": "10-Step Korean Skin Care Routine Set (Normal Skin Type)",
+   "handle": "10-step-korean-skin-care-routine-set-normal",
+   "product_type": "Skincare Set",
+   "tags": [
+    "10 step korean skincare",
+    "badge-exclusive",
+    "best seller",
+    "BF Set",
+    "BlackFriday2018",
+    "exclusive",
+    "holiday shop 2020",
+    "holiday shop 2021",
+    "holiday shop 2022",
+    "normal",
+    "normal skin",
+    "Product_Type::Sets",
+    "set",
+    "sets",
+    "skin care",
+    "skin care routine",
+    "skin care steps",
+    "Skin_Concern::Anti-Aging/Wrinkles",
+    "Skin_Concern::Dryness/Hydration",
+    "Skin_Type::Normal",
+    "skincare",
+    "skincare routine",
+    "skincare routine steps",
+    "skincare set",
+    "skincare steps",
+    "sokoglam",
+    "temp sale",
+    "test"
+   ],
+   "variants": [
+    {
+     "price": "206.00",
+     "available": false
+    }
+   ]
+  },
+  {
+   "title": "10-Step Korean Skincare Routine Set (Combination Skin Type)",
+   "handle": "10-step-skincare-routine-set-combo",
+   "product_type": "Skincare Set",
+   "tags": [
+    "10 step korean skincare",
+    "badge-exclusive",
+    "best seller",
+    "Best sellers 2021",
+    "BF Set",
+    "BlackFriday2018",
+    "combination skin",
+    "exclusive",
+    "holiday shop 2020",
+    "holiday shop 2021",
+    "holiday shop 2022",
+    "Product_Type::Sets",
+    "set",
+    "sets not for sale",
+    "site-1.0",
+    "skin care",
+    "skin care routine",
+    "skin care steps",
+    "Skin_Concern::Dryness/Hydration",
+    "Skin_Concern::Oil Control/Pores",
+    "Skin_Concern::Pigmentation",
+    "Skin_Type::Combination",
+    "skincare",
+    "skincare routine",
+    "skincare routine steps",
+    "skincare set",
+    "skincare steps",
+    "sokoglam",
+    "test"
+   ],
+   "variants": [
+    {
+     "price": "199.00",
+     "available": true
+    }
+   ]
+  },
+  {
+   "title": "10-Step Korean Skin Care Routine Set (Dry Skin Type)",
+   "handle": "10-step-korean-skin-care-routine-set-dry",
+   "product_type": "Skincare Set",
+   "tags": [
+    "10 step korean skincare",
+    "badge-exclusive",
+    "best seller",
+    "BF Set",
+    "BlackFriday2018",
+    "dry",
+    "dry skin",
+    "dryness",
+    "exclusive",
+    "holiday shop 2020",
+    "holiday shop 2021",
+    "klairs",
+    "manefit",
+    "Missha",
+    "Product_Type::Sets",
+    "re:p",
+    "sets not for sale",
+    "skin care",
+    "skin care routine",
+    "skin care steps",
+    "Skin_Type::Dry",
+    "skincare",
+    "skincare routine",
+    "skincare routine steps",
+    "skincare steps",
+    "sokoglam",
+    "test"
+   ],
+   "variants": [
+    {
+     "price": "199.00",
+     "available": false
+    }
+   ]
+  },
+  {
+   "title": "The Clear Intentions Set",
+   "handle": "the-clear-intentions-set",
+   "product_type": "Skincare Set",
+   "tags": [
+    "new",
+    "skincare set"
+   ],
+   "variants": [
+    {
+     "price": "45.00",
+     "available": true
+    }
+   ]
+  },
+  {
+   "title": "Cellus Aqualane Solution",
+   "handle": "lagom-cellus-aqualane-solution",
+   "product_type": "Serum/Ampoule",
+   "tags": [
+    "badge-vegan",
+    "barrier protection",
+    "EXCLUDE SUMMER",
+    "hydrated barrier",
+    "lagom",
+    "moisture barrier",
+    "Product_type::Serum/Ampoule",
+    "serum",
+    "serum/ampoule",
+    "skin barrier",
+    "Skin_Concern::Dryness/Hydration",
+    "Skin_Concern::Dryness_/_Hydration",
+    "Skin_Concern::Sensitive",
+    "Skin_Type::Combination",
+    "Skin_Type::Dry",
+    "Skin_Type::Normal",
+    "Skin_Type::Oily",
+    "Vegan"
+   ],
+   "variants": [
+    {
+     "price": "15.00",
+     "available": false
+    }
+   ]
+  },
+  {
+   "title": "Cicachid Chilling Pad",
+   "handle": "needly-cicachid-chilling-pad",
+   "product_type": "Toner",
+   "tags": [
+    "AHA",
+    "barrier protection",
+    "BHA",
+    "Centella Asiatica",
+    "Centella asiatica extract",
+    "EXCLUDE SUMMER",
+    "hydrated barrier",
+    "LHA",
+    "moisture barrier",
+    "Needly",
+    "Panthenol",
+    "PHA",
+    "Product_Type::Toner",
+    "skin barrier",
+    "Skin_Concern::Dryness/Hydration",
+    "Skin_Concern::Dryness_/_Hydration",
+    "Skin_Concern::Oil Control/Pores",
+    "Skin_Concern::Redness",
+    "Skin_Type::Combination",
+    "Skin_Type::Dry",
+    "Skin_Type::Normal",
+    "Skin_Type::Oily",
+    "toner"
+   ],
+   "variants": [
+    {
+     "price": "6.90",
+     "available": false
+    }
+   ]
+  },
+  {
+   "title": "Freshly Juiced Vitamin Charging Serum 10% Vitamin C",
+   "handle": "dear-klaris-freshly-juiced-vitamin-charging-serum",
+   "product_type": "Serum/Ampoule",
+   "tags": [
+    "badge-bestofkbeautynom",
+    "J_collagen",
+    "J_texture",
+    "J_vitamin-C",
+    "K3PL",
+    "klairs",
+    "Product_type::Serum/Ampoule",
+    "skin care",
+    "Skin_Concern::Anti-Aging/Wrinkles",
+    "Skin_Concern::Pigmentation",
+    "Skin_Type::Combination",
+    "Skin_Type::Dry",
+    "Skin_Type::Normal",
+    "skincare",
+    "skincare routine",
+    "vitamin c",
+    "vitamin c serum"
+   ],
+   "variants": [
+    {
+     "price": "35.00",
+     "available": true
+    }
+   ]
+  },
+  {
+   "title": "EGF Blue Calming Toner Pads",
+   "handle": "dear-klairs-egf-blue-calming-toner-pad-150-ml-60-pads",
+   "product_type": "Toner",
+   "tags": [
+    "Best toner",
+    "calming toner",
+    "cica",
+    "daily toner pad",
+    "egf",
+    "hydrating toner",
+    "Hydration toner",
+    "Ingredient_Type::EGF",
+    "klairs",
+    "new",
+    "Product_Type::Toner",
+    "Skin_Concern::Acne",
+    "Skin_Concern::Dryness/Hydration",
+    "Skin_Concern::Dryness_/_Hydration",
+    "Skin_Concern::Redness",
+    "Skin_Concern::Sensitive",
+    "Skin_Type::Combination",
+    "Skin_Type::Dry",
+    "Skin_Type::Normal",
+    "Skin_Type::Oily",
+    "toner",
+    "toner face",
+    "toner pad",
+    "toner pads"
+   ],
+   "variants": [
+    {
+     "price": "21.90",
+     "available": true
+    }
+   ]
+  },
+  {
+   "title": "Midnight Blue Clearing Water Cream",
+   "handle": "dear-klairs-midnight-blue-clearing-water-cream-50-g",
+   "product_type": "Facial Moisturizer",
+   "tags": [
+    "Facial Moisturizer",
+    "klairs",
+    "light weight moisturizer",
+    "Lightweight Moisturizer",
+    "midnight blue",
+    "moisture barrier",
+    "moisturize",
+    "moisturizing",
+    "new",
+    "Product_Type::Moisturizer",
+    "Skin_Type::Combination",
+    "Skin_Type::Normal",
+    "Skin_Type::Oily"
+   ],
+   "variants": [
+    {
+     "price": "27.00",
+     "available": true
+    }
+   ]
+  },
+  {
+   "title": "Oat PDRN Gentle Refining Toner",
+   "handle": "oat-pdrn-gentle-refining-toner",
+   "product_type": "Toner",
+   "tags": [
+    "all skin types",
+    "Best toner",
+    "hydrating toner",
+    "Hydration toner",
+    "milky toner",
+    "new",
+    "pdrn",
+    "Product_Type::Toner",
+    "Purito",
+    "Purito Seoul",
+    "Skin_Concern::Anti-Aging/Wrinkles",
+    "Skin_Concern::Dryness/Hydration",
+    "Skin_Concern::Dryness_/_Hydration",
+    "Skin_Concern::Redness",
+    "Skin_Concern::Sensitive",
+    "Skin_Type::Combination",
+    "Skin_Type::Dry",
+    "Skin_Type::Normal",
+    "Skin_Type::Oily"
+   ],
+   "variants": [
+    {
+     "price": "23.00",
+     "available": true
+    }
+   ]
+  },
+  {
+   "title": "Mighty Bamboo Panthenol Cleanser",
+   "handle": "mighty-bamboo-panthenol-cleanser",
+   "product_type": "Water Cleanser",
+   "tags": [
+    "barrier protection",
+    "Cleanser",
+    "hydrated barrier",
+    "moisture barrier",
+    "new",
+    "Product_type::Water Cleanser",
+    "Purito",
+    "Purito Seoul",
+    "skin barrier",
+    "Skin_Concern::Oil Control/Pores",
+    "Skin_Concern::Sensitive",
+    "Skin_Type::Combination",
+    "Skin_Type::Dry",
+    "Skin_Type::Normal",
+    "water based cleanser",
+    "water cleanser"
+   ],
+   "variants": [
+    {
+     "price": "14.00",
+     "available": true
+    }
+   ]
+  },
+  {
+   "title": "TXA 6 Niacinamide 10 Retinal Serum",
+   "handle": "txa-6-niacinamide-10-retinal-serum",
+   "product_type": "Serum/Ampoule",
+   "tags": [
+    "dark spot",
+    "dark spots",
+    "hyperpigmentation",
+    "new",
+    "Product_type::Serum/Ampoule",
+    "Purito",
+    "Purito Seoul",
+    "Retinal",
+    "retinol",
+    "Skin_Concern::Anti-Aging/Wrinkles",
+    "Skin_Concern::Pigmentation",
+    "Skin_Type::Combination",
+    "Skin_Type::Dry",
+    "Skin_Type::Normal",
+    "Skin_Type::Oily",
+    "txa"
+   ],
+   "variants": [
+    {
+     "price": "25.00",
+     "available": true
+    }
+   ]
+  },
+  {
+   "title": "Azelaic Acid 10 Kojic Tea Tree Serum",
+   "handle": "azelaic-acid-10-kojic-tea-tree-serum",
+   "product_type": "Serum/Ampoule",
+   "tags": [
+    "all skin types",
+    "Azelaic Acid",
+    "new",
+    "Product_type::Serum/Ampoule",
+    "Skin_Concern::Acne",
+    "Skin_Concern::Oil Control/Pores",
+    "Skin_Concern::Pigmentation",
+    "Skin_Concern::Redness",
+    "Skin_Type::Combination",
+    "Skin_Type::Dry",
+    "Skin_Type::Normal",
+    "Skin_Type::Oily",
+    "tea tree",
+    "tea tree extract",
+    "Tea Tree Leaf",
+    "tea tree oil"
+   ],
+   "variants": [
+    {
+     "price": "25.00",
+     "available": false
+    }
+   ]
+  },
+  {
+   "title": "Fermentation Eye Cream",
+   "handle": "benton-fermentation-eye-cream",
+   "product_type": "Eye cream",
+   "tags": [
+    "$20-$30",
+    "aloe",
+    "badge-bestofkbeautynom",
+    "badge-cleanbeauty",
+    "badge-gold",
+    "benton",
+    "bifida",
+    "BlackFriday2018",
+    "ceramide",
+    "cruelty-free",
+    "de-puff",
+    "de-puff eye",
+    "depuff",
+    "EXCLUDE SUMMER",
+    "eye cream",
+    "eye wrinkle",
+    "eyecream",
+    "Father's Day Gift Guide",
+    "Fermentation",
+    "fermented yeast",
+    "fragrance free",
+    "Free_Of::Alcohol_Products",
+    "Free_Of::Artificial_Colors",
+    "Free_Of::Artificial_Fragrances",
+    "Free_Of::Essential_Oil",
+    "Free_Of::Mineral_Oil",
+    "Free_of::Parabens",
+    "Free_Of::Silicone",
+    "Free_Of::Sulphates",
+    "Hanbang",
+    "holiday shop 2020",
+    "holiday shop 2021",
+    "Ingredient_Type::Ferments",
+    "K3PL",
+    "normal_sensitive",
+    "Product_Type::Eye Creams",
+    "skin care",
+    "Skin_Concern::Anti-Aging/Wrinkles",
+    "Skin_Concern::Dryness/Hydration",
+    "Skin_Type::Combination",
+    "Skin_Type::Normal",
+    "skincare",
+    "sokoglam",
+    "sustainable package"
+   ],
+   "variants": [
+    {
+     "price": "27.00",
+     "available": false
+    }
+   ]
+  },
+  {
+   "title": "XMD Stem III Clinical Recovery Serum",
+   "handle": "iope-xmd-stem-iii-clinical-recovery-serum",
+   "product_type": "Serum/Ampoule",
+   "tags": [
+    "barrier protection",
+    "hydrated barrier",
+    "IOPE",
+    "moisture barrier",
+    "new",
+    "pdrn",
+    "Product_type::Serum/Ampoule",
+    "serum",
+    "serum/ampoule",
+    "skin barrier",
+    "Skin_Concern::Redness",
+    "Skin_Concern::Sensitive",
+    "Skin_Type::Combination",
+    "Skin_Type::Dry",
+    "Skin_Type::Normal",
+    "Skin_Type::Oily"
+   ],
+   "variants": [
+    {
+     "price": "82.00",
+     "available": true
+    }
+   ]
+  },
+  {
+   "title": "K-beauty Starter Set",
+   "handle": "korean-skincare-quick-starter-set",
+   "product_type": "Skincare Set",
+   "tags": [
+    "$40-$60",
+    "2020 BF Hidden Set",
+    "badge-exclusive",
+    "best seller",
+    "BF Set",
+    "combination",
+    "exclusive",
+    "holiday shop 2021",
+    "normal",
+    "Product_Type::Sets",
+    "set",
+    "sets not for sale",
+    "skin care",
+    "skin care routine",
+    "skin care steps",
+    "skincare",
+    "skincare routine",
+    "skincare routine steps",
+    "skincare set",
+    "skincare steps",
+    "sokoglam"
+   ],
+   "variants": [
+    {
+     "price": "90.00",
+     "available": false
+    }
+   ]
+  },
+  {
+   "title": "Ros\u00e9 Resurfacing Facial Mask",
+   "handle": "then-i-met-you-rose-resurfacing-facial-mask",
+   "product_type": "Wash Off Masks",
+   "tags": [
+    "_okendo:syndication_key:rose_resurfacing_facial_mask",
+    "badge-exclusive",
+    "badge-vegan",
+    "chemical",
+    "chemical exfoliant",
+    "chemical exfoliator",
+    "Cruelty-free",
+    "exclusive",
+    "Face Mask",
+    "facial mask",
+    "holiday shop 2022",
+    "J_acid",
+    "J_anti-aging",
+    "J_combination-skin",
+    "J_dehydrated",
+    "J_dryness",
+    "J_hydrating",
+    "J_normal",
+    "J_texture",
+    "J_wrinkles",
+    "K3PL",
+    "Then I Met You",
+    "Wash off Mask"
+   ],
+   "variants": [
+    {
+     "price": "58.00",
+     "available": true
+    }
+   ]
+  },
+  {
+   "title": "Retinol Collagen Eye Ampoule Patch",
+   "handle": "retinol-collagen-eye-ampoule-patch",
+   "product_type": "Eye Mask",
+   "tags": [
+    "de-puff eye",
+    "dehydrated eyes",
+    "eye care",
+    "eye mask",
+    "eye patch",
+    "eye serum",
+    "eye wrinkle",
+    "eyecare",
+    "Eyes",
+    "MEDIHEAL",
+    "new",
+    "Product_Type::Eye Care",
+    "Product_Type::Eye Masks",
+    "retinol",
+    "Skin_Concern::Anti-Aging/Wrinkles",
+    "Skin_Concern::Dryness/Hydration",
+    "Skin_Concern::Dryness_/_Hydration",
+    "Skin_Concern::Pigmentation",
+    "Skin_Type::Combination",
+    "Skin_Type::Dry",
+    "Skin_Type::Normal",
+    "wrinkles"
+   ],
+   "variants": [
+    {
+     "price": "24.00",
+     "available": false
+    }
+   ]
+  },
+  {
+   "title": "Ceramide Essential Mask Moisture Barrier (4 pack)",
+   "handle": "ceramide-essential-mask-moisture-barrier-4-pack",
+   "product_type": "Sheet Mask",
+   "tags": [
+    "anti aging",
+    "Anti-Aging/Wrinkles",
+    "barrier protection",
+    "Ceramide",
+    "ceramides",
+    "hydrated barrier",
+    "MEDIHEAL",
+    "moisture barrier",
+    "new",
+    "Product_Type::Sheet_Masks",
+    "sheet mask",
+    "sheet masks",
+    "skin barrier",
+    "Skin_Concern::Anti-Aging/Wrinkles",
+    "Skin_Type::Combination",
+    "Skin_Type::Dry",
+    "Skin_Type::Normal"
+   ],
+   "variants": [
+    {
+     "price": "8.80",
+     "available": false
+    }
+   ]
+  },
+  {
+   "title": "Rose PDRN Essential Mask Healthy Glow (4 pack)",
+   "handle": "rose-pdrn-essential-mask-healthy-glow-4-pack",
+   "product_type": "Sheet Mask",
+   "tags": [
+    "anti aging",
+    "Anti-Aging/Wrinkles",
+    "Ingredient_Type::Anti-Oxidant /Vitamins",
+    "new",
+    "pdrn",
+    "Product_Type::Sheet_Masks",
+    "rose",
+    "Rose extract",
+    "sheet mask",
+    "sheet masks",
+    "Skin_Concern::Anti-Aging/Wrinkles",
+    "Skin_Concern::Dryness/Hydration",
+    "Skin_Concern::Dryness_/_Hydration",
+    "Skin_Type::Combination",
+    "Skin_Type::Dry",
+    "Skin_Type::Normal",
+    "Skin_Type::Oily"
+   ],
+   "variants": [
+    {
+     "price": "8.80",
+     "available": false
+    }
+   ]
+  },
+  {
+   "title": "PDRN Lifting Pad",
+   "handle": "pdrn-lifting-pad",
+   "product_type": "Toner",
+   "tags": [
+    "Best toner",
+    "daily toner pad",
+    "hydrating toner",
+    "Hydration toner",
+    "MEDIHEAL",
+    "new",
+    "Product_Type::Toner",
+    "Skin_Concern::Anti-Aging/Wrinkles",
+    "Skin_Concern::Dryness/Hydration",
+    "Skin_Concern::Dryness_/_Hydration",
+    "Skin_Type::Combination",
+    "Skin_Type::Dry",
+    "Skin_Type::Normal",
+    "Skin_Type::Oily",
+    "toner",
+    "toner face",
+    "toner pad",
+    "toner pads"
+   ],
+   "variants": [
+    {
+     "price": "26.40",
+     "available": true
+    }
+   ]
+  },
+  {
+   "title": "Madecassoside Moisture Sun Serum",
+   "handle": "madecassoside-moisture-sun-serum",
+   "product_type": "Sunscreen",
+   "tags": [
+    "anti-aging",
+    "Anti-Aging/Wrinkles",
+    "family sunscreen",
+    "korean sunscreen",
+    "MEDIHEAL",
+    "new",
+    "Skin_Concern::Anti-Aging/Wrinkles",
+    "Skin_Concern::Pigmentation",
+    "Skin_Type::Combination",
+    "Skin_Type::Dry",
+    "Skin_Type::Normal",
+    "Skin_Type::Oily",
+    "skincare",
+    "sun care",
+    "sun damage",
+    "sun screen",
+    "sunblock",
+    "Sunscreen",
+    "type"
+   ],
+   "variants": [
+    {
+     "price": "22.00",
+     "available": true
+    }
+   ]
+  }
+ ]
+}

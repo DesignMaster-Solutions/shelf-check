@@ -28,7 +28,25 @@ Built for the YouCam API Skin AI & eCommerce VTO Hackathon by Design Master Solu
    lines and redness x1.2 on type I; weights never go below 1, so a measured need is never hidden). Each catalog item
    scores the sum of the needs it treats; ties go to the cheaper item. Top 3 are returned with the concerns that justified them.
 
-The store's catalog is a plain `catalog.json` (`sku`, `name`, `price`, `treats`), so any shop can plug in its own shelf.
+The demo shelf is a plain `catalog.json` (`sku`, `name`, `price`, `treats`).
+
+## Any Shopify store's shelf
+
+Type a store's address under **Whose shelf?** (or open `/?store=sokoglam.com`) and Shelf Check ranks that store's real
+products instead of the demo shelf. The Worker reads the store's public `/products.json` (first 250 products) and
+`/meta.json` (name, currency), and keeps a product only if it is in stock, priced, made for the face (no lip, body or
+hair products), and its **own title, product type or tags** claim one of the eight measured concerns: concern tags like
+`Skin_Concern::Dryness/Hydration`, actives like niacinamide, salicylic acid, retinal, tranexamic acid, or words like
+"eye cream" and "SPF". Nothing is inferred beyond the store's words, and every pick shows them ("Store says:
+niacinamide, barrier"). Same-name listings collapse to the cheaper one.
+
+The same scan gives the store owner a **shelf map**: how many products claim each concern, with gaps highlighted. On
+sokoglam.com (01/11/2026) 131 of 250 listed products made the shelf, 86 claim hydration and 5 claim dark circles; on
+kravebeauty.com 12 of 34 made it and none claims redness, pores or breakouts in its listing text. When a shopper's
+low-scoring concern has nothing on the shelf, the page says so instead of selling something unrelated.
+
+The shelf loads before any YouCam unit is spent, so a wrong store address costs nothing. Only public DNS names are
+fetched (no IPs, no internal hosts), and every store-supplied string is escaped before it reaches the page.
 
 ## Run
 
@@ -52,9 +70,9 @@ npx wrangler secret put YOUCAM_API_KEY
 ## Test
 
 ```bash
-npm test   # Python unit tests + Worker parity with the Python ranking (incl. all six skin-type weightings)
+npm test   # Python unit tests, Worker parity with the Python ranking (all six skin types), Shopify shelf import
 ```
 
 ## Credits
 
-Sample selfie: "Kimberlee-Weatherall-profile.jpg", Wikimedia Commons, CC0. Catalog: 10 sample SKUs for a demo store.
+Sample selfie: "Kimberlee-Weatherall-profile.jpg", Wikimedia Commons, CC0. Demo catalog: 10 sample SKUs. `fixtures/shopify-sokoglam.json`: the first 30 products of sokoglam.com's public catalog (01/11/2026), trimmed to title, handle, type, tags and variant price/stock, used only by the tests.
