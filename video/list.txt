@@ -1,0 +1,6 @@
+file '/Users/alandebortolo/Backups/impressora/youcam/shelf-check/video/s0.mp4'
+file '/Users/alandebortolo/Backups/impressora/youcam/shelf-check/video/s1.mp4'
+file '/Users/alandebortolo/Backups/impressora/youcam/shelf-check/video/s2.mp4'
+file '/Users/alandebortolo/Backups/impressora/youcam/shelf-check/video/s3.mp4'
+file '/Users/alandebortolo/Backups/impressora/youcam/shelf-check/video/s4.mp4'
+file '/Users/alandebortolo/Backups/impressora/youcam/shelf-check/video/s5.mp4'

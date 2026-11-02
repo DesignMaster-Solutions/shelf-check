@@ -1,0 +1,95 @@
+{
+ "brand": "Shelf Check · YouCam API Skin AI · Design Master Solutions LLC",
+ "voice": "Samantha",
+ "rate": 182,
+ "bg": "#14201c",
+ "accent": "#0f6b57",
+ "out": "../docs/demo.mp4",
+ "scenes": [
+  {
+   "title": "Which of these products is for me?",
+   "lines": [
+    "The shopper's question",
+    "at every beauty shelf.",
+    "One selfie answers it,",
+    "from this store's shelf."
+   ],
+   "shots": [
+    "shots/1-store.png"
+   ],
+   "say": "Every beauty shopper asks the same thing in front of the shelf: which of these products is for me? Shelf Check answers with one selfie, and only from the products this store actually sells."
+  },
+  {
+   "title": "Any Shopify store's real shelf",
+   "lines": [
+    "Type any Shopify store.",
+    "sokoglam.com: 131 of 250",
+    "products claim a concern",
+    "in their own titles/tags."
+   ],
+   "shots": [
+    "shots/2-selfie.png"
+   ],
+   "say": "Type any Shopify store. Here it is Soko Glam. Shelf Check reads its public catalog and keeps the products that claim one of the eight skin concerns in the store's own titles and tags. One hundred thirty one of two hundred fifty."
+  },
+  {
+   "title": "Two YouCam APIs on one selfie",
+   "lines": [
+    "Skin Analysis: 8 concerns,",
+    "score 80, skin age 68.",
+    "Fitzpatrick: type II,",
+    "photo-ageing weighs more."
+   ],
+   "shots": [
+    "shots/4-type.png"
+   ],
+   "say": "One upload, two YouCam tasks in parallel. Skin Analysis measures eight concerns and draws the mask on the photo. The Fitzpatrick skin type API says type two, so fine lines, redness and spots weigh more for this skin."
+  },
+  {
+   "title": "Three picks, each with its reason",
+   "lines": [
+    "Ranked by weighted need.",
+    "\"For\" = what we measured.",
+    "\"Store says\" = the",
+    "store's own words."
+   ],
+   "shots": [
+    "shots/3-result.png"
+   ],
+   "say": "Then it ranks the store's own products by how much of that weighted need each one covers. Every pick says why: for redness, dehydration and fine lines, and next to it, what the store itself says about the product."
+  },
+  {
+   "title": "Another store, another shelf",
+   "lines": [
+    "versedskin.com:",
+    "15 of 75 products qualify.",
+    "Catalog read once an hour,",
+    "last good read on 429."
+   ],
+   "shots": [
+    "shots/6-versed.png"
+   ],
+   "say": "Switch to another store and the shelf changes with it. Catalogs are read at most once an hour per store, and if Shopify throttles, the last good read is served."
+  },
+  {
+   "title": "Tested",
+   "lines": [
+    "Worker = Python reference, all six skin types."
+   ],
+   "mono_cmd": "npm test",
+   "mono_cwd": "..",
+   "mono_grep": [
+    "✔ a real Shopify",
+    "✔ the shelf is",
+    "✔ the measured",
+    "✔ a store read",
+    "✔ worker picks",
+    "✔ skin type",
+    "✖",
+    "ℹ pass",
+    "ℹ fail"
+   ],
+   "say": "The Cloudflare Worker and a Python reference are tested to rank exactly the same for all six skin types. Try it live at shelf check dot designmaster dot workers dot dev."
+  }
+ ]
+}
