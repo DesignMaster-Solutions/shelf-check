@@ -45,7 +45,9 @@ sokoglam.com (01/11/2026) 131 of 250 listed products made the shelf, 86 claim hy
 kravebeauty.com 12 of 34 made it and none claims redness, pores or breakouts in its listing text. When a shopper's
 low-scoring concern has nothing on the shelf, the page says so instead of selling something unrelated.
 
-The shelf loads before any YouCam unit is spent, so a wrong store address costs nothing. Only public DNS names are
+Each store's catalog is read at most once an hour and kept in Workers KV (`SHELVES`); Shopify answers HTTP 429 to
+bursts, so a busy store serves its last good read, labeled with the time it was read. The shelf loads before any YouCam
+unit is spent, so a wrong store address costs nothing. Only public DNS names are
 fetched (no IPs, no internal hosts), and every store-supplied string is escaped before it reaches the page.
 
 ## Run
