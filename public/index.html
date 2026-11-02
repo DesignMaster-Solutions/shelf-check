@@ -106,7 +106,8 @@
       if (!r.ok) throw new Error(d.error);
       store = d.store; $('store').value = store.host;
       history.replaceState(null, '', '?store=' + encodeURIComponent(store.host));
-      $('storemeta').innerHTML = `Now: <strong>${esc(store.name)}</strong> · ${d.items} of ${d.total} products claim one of the 8 concerns in their own titles and tags · <button class="link" type="button" id="reset">back to demo shelf</button>`;
+      const busy = d.stale ? ` · <span class="err">the store is busy, so this is its catalog as read at ${new Date(d.read_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>` : '';
+      $('storemeta').innerHTML = `Now: <strong>${esc(store.name)}</strong> · ${d.items} of ${d.total} products claim one of the 8 concerns in their own titles and tags${busy} · <button class="link" type="button" id="reset">back to demo shelf</button>`;
       $('cover').innerHTML = Object.entries(d.coverage).map(([k, n]) => `<span class="${n ? '' : 'gap'}">${k} ${n}</span>`).join('');
       $('reset').onclick = () => { store = null; $('store').value = ''; $('cover').innerHTML = ''; history.replaceState(null, '', location.pathname);
         $('storemeta').textContent = 'Now: demo shelf, 10 sample SKUs.'; };

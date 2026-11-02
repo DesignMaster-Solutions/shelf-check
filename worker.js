@@ -109,13 +109,30 @@ export function storeHost(input) {
 
 async function shelf(host) {
   const get = (path) => fetch(`https://${host}${path}`, { headers: { Accept: "application/json", "User-Agent": "ShelfCheck/1.0 (+https://shelf-check.designmaster.workers.dev)" },
-    cf: { cacheTtl: 900, cacheEverything: true }, signal: AbortSignal.timeout(8000) });
+    signal: AbortSignal.timeout(8000) });
   // shortcut: first 250 products (one page of /products.json); page through ?page=N when a store needs its whole range.
   const [pr, mr] = await Promise.all([get("/products.json?limit=250"), get("/meta.json").catch(() => null)]);
   const data = pr.ok ? await pr.json().catch(() => null) : null;
-  if (!Array.isArray(data?.products)) throw new Error(`${host} did not share a Shopify catalog (HTTP ${pr.status}). Shopify stores publish /products.json unless the owner turns it off.`);
+  if (!Array.isArray(data?.products)) throw new Error(pr.status === 429 ? `${host} is answering too many requests right now (HTTP 429). Try again in a minute.`
+    : `${host} did not share a Shopify catalog (HTTP ${pr.status}). Shopify stores publish /products.json unless the owner turns it off.`);
   const meta = mr?.ok ? await mr.json().catch(() => ({})) : {};
   return { store: { host, name: meta.name || host, currency: meta.currency || "USD" }, total: data.products.length, items: shelfFromShopify(data.products, host) };
+}
+
+// One read per store per hour, kept in KV (the Cache API does nothing on workers.dev). Shopify answers 429 to bursts,
+// so a busy store serves its last good read, flagged stale with the time it was read, instead of an error.
+const FRESH_MS = 3600e3;
+async function cachedShelf(host, env) {
+  const key = `shelf:${host}`, kept = env.SHELVES ? await env.SHELVES.get(key, "json") : null;
+  if (kept && Date.now() - kept.read_at < FRESH_MS) return kept;
+  try {
+    const s = { ...(await shelf(host)), read_at: Date.now() };
+    if (env.SHELVES) await env.SHELVES.put(key, JSON.stringify(s), { expirationTtl: 7 * 86400 });
+    return s;
+  } catch (e) {
+    if (kept) return { ...kept, stale: true };
+    throw e;
+  }
 }
 
 async function call(method, url, key, body) {
@@ -163,9 +180,9 @@ export default {
     if (url.searchParams.has("store") || url.pathname === "/api/shelf") {
       const host = storeHost(url.searchParams.get("store"));
       if (!host) return Response.json({ error: "type a store's web address, like sokoglam.com" }, { status: 400 });
-      try { s = await shelf(host); } catch (e) { return Response.json({ error: String(e.message || e) }, { status: 502 }); }
+      try { s = await cachedShelf(host, env); } catch (e) { return Response.json({ error: String(e.message || e) }, { status: 502 }); }
     }
-    if (url.pathname === "/api/shelf") return Response.json({ store: s.store, total: s.total, items: s.items.length,
+    if (url.pathname === "/api/shelf") return Response.json({ store: s.store, total: s.total, items: s.items.length, read_at: s.read_at, stale: s.stale,
       coverage: Object.fromEntries(Object.entries(coverage(s.items)).map(([c, n]) => [LABELS[c], n])) });
     if (req.method !== "POST") return Response.json({ error: "not found" }, { status: 404 });
     const type = req.headers.get("Content-Type") || "";

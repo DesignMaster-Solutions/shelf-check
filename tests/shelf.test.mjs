@@ -62,6 +62,34 @@ test("the measured demo selfie gets three picks from the imported shelf, each wi
   for (const p of picks) assert.ok(p.url && p.because.length && p.matched.length, p.name);
 });
 
+test("a store read is kept for an hour, and a busy store (HTTP 429) serves the last good read, labeled", async () => {
+  const real = globalThis.fetch, kv = new Map();
+  const env = { SHELVES: { get: async (k) => (kv.has(k) ? JSON.parse(kv.get(k)) : null), put: async (k, v) => void kv.set(k, v) } };
+  let calls = 0, busy = false;
+  globalThis.fetch = async (url) => {
+    calls++;
+    if (busy) return new Response("Too Many Requests", { status: 429 });
+    return new URL(url).pathname === "/meta.json" ? Response.json({ name: "Versed Skin", currency: "USD" }) : Response.json(shop);
+  };
+  try {
+    const get = async () => (await worker.fetch(new Request("https://x/api/shelf?store=versedskin.com"), env)).json();
+    const first = await get();
+    assert.equal(first.stale, undefined);
+    assert.equal(calls, 2);
+    await get(); // fresh copy: the store is not asked again
+    assert.equal(calls, 2);
+    const k = "shelf:versedskin.com", old = JSON.parse(kv.get(k));
+    kv.set(k, JSON.stringify({ ...old, read_at: old.read_at - 2 * 3600e3 })); // the stored read is now two hours old
+    busy = true;
+    const late = await (await worker.fetch(new Request("https://x/api/shelf?store=versedskin.com"), env)).json();
+    assert.equal(late.stale, true);
+    assert.equal(late.items, first.items);
+    assert.ok(late.read_at < first.read_at);
+  } finally {
+    globalThis.fetch = real;
+  }
+});
+
 test("the Worker serves /api/shelf and ranks /api/check from the store it was given", async () => {
   const real = globalThis.fetch;
   globalThis.fetch = async (url) => {
